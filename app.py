@@ -35,6 +35,8 @@ def index():
     conn.close()
 
     return render_template("index.html", users=users)
+print("DATABASE_URL:", DATABASE_URL)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
