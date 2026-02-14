@@ -1,25 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User App</title>
+    <title>User App - BAWAL Edition 🔥</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Particles Background -->
+    <div class="particles-container">
+        <canvas id="particles-canvas"></canvas>
+    </div>
 
-<h2>Add User</h2>
+    <div class="container">
+        <!-- Header with Glow -->
+        <header class="hero-header">
+            <h1><i class="fas fa-users"></i> USER DASHBOARD</h1>
+            <div class="status-bar">
+                <span class="live-indicator"></span>
+                <span>Live Users: <span id="live-count">0</span></span>
+            </div>
+        </header>
 
-<form method="POST">
-    <input type="text" name="name" placeholder="Enter Name" required>
-    <input type="email" name="email" placeholder="Enter Email" required>
-    <button type="submit">Add</button>
-</form>
+        <!-- Add User Section -->
+        <section class="form-section">
+            <h2><i class="fas fa-user-plus"></i> ADD USER</h2>
+            <form id="userForm" method="POST">
+                <div class="input-group">
+                    <input type="text" name="name" id="nameInput" placeholder="Enter Name" required>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" id="emailInput" placeholder="Enter Email" required>
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <button type="submit" id="submitBtn">
+                    <span class="btn-text">ADD USER</span>
+                    <span class="btn-loader"><i class="fas fa-spinner fa-spin"></i></span>
+                </button>
+            </form>
+        </section>
 
-<h2>User List</h2>
-<ul>
-    {% for user in users %}
-        <li>{{ user[1] }} - {{ user[2] }}</li>
-    {% endfor %}
-</ul>
+        <!-- User List Section -->
+        <section class="list-section">
+            <h2><i class="fas fa-list"></i> USER LIST</h2>
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <span>Total Users: <span id="total-count">0</span></span>
+                </div>
+            </div>
+            <ul id="userList">
+                {% for user in users %}
+                    <li class="user-card" data-name="{{ user[1] }}" data-email="{{ user[2] }}">
+                        <div class="user-avatar">{{ user[1][0].upper() }}</div>
+                        <div class="user-info">
+                            <h3>{{ user[1] }}</h3>
+                            <p>{{ user[2] }}</p>
+                        </div>
+                        <div class="user-actions">
+                            <button class="copy-btn" onclick="copyUser(this)"><i class="fas fa-copy"></i></button>
+                            <button class="delete-btn" onclick="deleteUser(this)"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
 
+    <!-- Success/Error Toast -->
+    <div id="toast" class="toast">
+        <span id="toast-message"></span>
+        <i class="fas fa-times toast-close" onclick="hideToast()"></i>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
